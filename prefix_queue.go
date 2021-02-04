@@ -10,6 +10,7 @@ import (
 
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
+	"github.com/syndtr/goleveldb/leveldb/opt"
 )
 
 // prefixDelimiter defines the delimiter used to separate a prefix from an
@@ -40,7 +41,7 @@ type PrefixQueue struct {
 
 // OpenPrefixQueue opens a prefix queue if one exists at the given directory.
 // If one does not already exist, a new prefix queue is created.
-func OpenPrefixQueue(dataDir string) (*PrefixQueue, error) {
+func OpenPrefixQueue(dataDir string, opts *opt.Options) (*PrefixQueue, error) {
 	var err error
 
 	// Create a new Queue.
@@ -51,7 +52,7 @@ func OpenPrefixQueue(dataDir string) (*PrefixQueue, error) {
 	}
 
 	// Open database for the prefix queue.
-	pq.db, err = leveldb.OpenFile(dataDir, nil)
+	pq.db, err = leveldb.OpenFile(dataDir, opts)
 	if err != nil {
 		return nil, err
 	}
